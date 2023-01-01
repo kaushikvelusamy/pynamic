@@ -16,14 +16,19 @@ else
 	export LD_LIBRARY_PATH=./:$LD_LIBRARY_PATH
 fi
 
-which ap >& /dev/null
-hasap=$?
-if test $hasap -eq 0
-then
-    sharedlib=`ldd $1 | gawk '{ print $3}' | xargs ap | grep -i -v "file not found"`
-else
-    sharedlib=`ldd $1 | gawk '{ print $3}' | xargs grep '.so' | grep -i -v "file not found"`
-fi
+# which ap >& /dev/null
+# hasap=$?
+# if test $hasap -eq 0
+# then
+#     sharedlib=`ldd $1 | gawk '{ print $3}' | xargs ap | grep -i -v "file not found"`
+# else
+#     sharedlib=`ldd $1 | gawk '{ print $3}' | xargs grep '.so' | grep -i -v "file not found"`
+# fi
+
+sharedlib=`ldd $1  | gawk '{ print $3}' ` 
+`echo $sharedlib >> tempfile`
+`sed -i 's/not//' tempfile`
+sharedlib=`cat tempfile`
 
 sharedlib="$1 $sharedlib"
 
@@ -39,9 +44,9 @@ for sh in $sharedlib; do
 	    ls -l $sh | gawk '{ print "Image size: "$5}' | tee -a 00imagesize 
 	    size -f $sh | gawk '{if ($1 ~ /[0-9]+/) print "Text size: "$1}' | tee -a 00textsize
             size -f $sh | gawk '{if ($2 ~ /[0-9]+/) print "Data size: "$2}' | tee -a 00datasize
-	    readelf -S -W $sh | gawk '{if ($2 ~ /\.debug/ ) print $6}' | addall "debug section" 16 | tee -a 00debugsectsize
-	    readelf -S -W $sh | gawk '{if ($2 ~ /\.symtab/ ) print $6}' | addall "symbol table" 16 | tee -a 00symtabsize
-	    readelf -S -W $sh | gawk '{if ($2 ~ /\.strtab/ ) print $6}' | addall "string table" 16 | tee -a 00strtabsize
+	    readelf -S -W $sh | gawk '{if ($2 ~ /\.debug/ ) print $6}' | ./addall "debug section" 16 | tee -a 00debugsectsize
+	    readelf -S -W $sh | gawk '{if ($2 ~ /\.symtab/ ) print $6}' | ./addall "symbol table" 16 | tee -a 00symtabsize
+	    readelf -S -W $sh | gawk '{if ($2 ~ /\.strtab/ ) print $6}' | ./addall "string table" 16 | tee -a 00strtabsize
     fi
 done
 

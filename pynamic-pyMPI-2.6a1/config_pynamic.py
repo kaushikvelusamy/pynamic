@@ -28,7 +28,9 @@ if not use_mpi4py:
     #
     # configure pyMPI or mpi4py with the pynamic-generated libraries
     #
-    command = './configure --with-prompt-nl --with-isatty --with-python=%s --with-libs="' % (sys.executable)
+    
+    #command = './configure --with-prompt-nl --with-isatty --with-python=%s --with-libs="' % (sys.executable)
+    command = 'env CC="cc" ./configure --prefix=/lus/grand/projects/datascience/kaushikv/copper-test/pyna-big/pynamic/pynamic-pyMPI-2.6a1/local --with-python=/usr/bin/python2 --with-includes=-I/opt/cray/pe/mpich/8.1.16/ofi/cray/10.0/include/ --with-prompt-nl --with-isatty --with-python=%s --with-libs="' % (sys.executable)
     command += '-Wl,-rpath=%s ' %(os.getcwd())
     for p, d, f in os.walk('./'):
         for file in f:
@@ -75,7 +77,9 @@ if os.path.exists('./addall.c') != True:
     print_error('required file addall.c not found!')
     sys.exit(0)
 
-command = "gcc -g addall.c -o addall"
+#command = "gcc -g addall.c -o addall"
+command = "cc -g addall.c -o addall"
+
 run_command(command)
 
 #

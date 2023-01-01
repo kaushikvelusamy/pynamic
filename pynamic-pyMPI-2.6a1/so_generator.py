@@ -363,8 +363,8 @@ def run_so_generator(num_files, avg_num_functions, call_depth, extern, seed, see
 
     utility_enabled = False
 
-    command = 'rm -f libpynamic.a'
-    run_command(command)
+    # command = 'rm -f libpynamic.a'
+    # run_command(command)
 
     pynamic_header_name = 'pynamic.h'
     pynamic_header_file = open(pynamic_header_name, 'w')

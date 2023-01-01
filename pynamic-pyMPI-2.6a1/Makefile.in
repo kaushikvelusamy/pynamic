@@ -546,7 +546,7 @@ install-binPROGRAMS: $(bin_PROGRAMS)
 	   $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) "$$p" "$(DESTDIR)$(bindir)/$$f" || exit 1; \
 	  else :; fi; \
 	done
-	rm -f lib*
+	#rm -f lib*
 
 uninstall-binPROGRAMS:
 	@$(NORMAL_UNINSTALL)
