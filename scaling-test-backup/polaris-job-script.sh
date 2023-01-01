@@ -8,7 +8,7 @@ fi
 
 NODES_RUN=$1
 RPN=$2
-OUTNAME=$3
+OUTNAME=$3"-"$1"-$2"
 PYN_DRI=$4
 
 #cmd_str="/lus/grand/projects/datascience/kaushikv/copper-test/pyna-big/pynamic/pynamic-pyMPI-2.6a1/pynamic-pyMPI"
